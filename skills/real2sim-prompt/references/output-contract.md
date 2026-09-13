@@ -90,3 +90,15 @@
 ## v3 双输入来源与分阶段状态
 
 robot/human 的输入与重定向记录按 [输入分支契约](input-and-retargeting.md)保存，尤其标明 target_robot、transfer_mode、各臂角色、来源状态/估计、source-to-robot 坐标、时间映射和生成的续接段。分别报告 static_initialization / motion_reference / native_task / appearance / temporal_correspondence / bimanual_coordination；不要用单一 pass 覆盖未测试的能力。无真实对应的续接帧不得加入 real RGB 的共同帧分母。
+
+
+## 人形候选与接受记录
+
+在现有清单中扩展，不强制新增多个文件：
+
+- `source_station / initial_station / station_delta`：共同坐标系、位置/朝向、来源及不确定性，历史适配站位不能充当原站位。
+- `branch=source|A|B|C`：实际站位与接触/路径改动、失败假设、配置/控制哈希、诊断或完整运行范围；未执行分支注明原因。
+- `continuity`：阶段衔接、停顿/重试、速度变化、接触/撤离、采样步长、覆盖分母、最长断触与力统计方法。
+- `acceptance_basis`：保留接触中断的真实观测、修正与剩余影响，不将其改为零；任务、接触稳定性、几何、姿态与视觉各自结论及选择理由。
+- `execution_scope`：固定骨盆/支撑、重力补偿、是否验证自由站立或动态移动。`success_adapted_trajectory` 与精确源轨迹复现分开。
+- `native_speed_video / event_aligned_comparison`：请求视频时分别指向实际速度与事件对齐输出，记录源帧到物理时间映射和最终候选哈希。

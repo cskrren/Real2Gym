@@ -1,76 +1,54 @@
 # Real2Sim Skills
 
-Current release: **v3.3 — contact-aware retargeting and verified delivery**. Historical tags remain unchanged.
+Current release: **v4 — humanoid retargeting with source-action priority**.
 
-[Real2Sim Prompt v3.3](skills/real2sim-prompt/SKILL.md) 包含两步：
+[Real2Sim Prompt v4](skills/real2sim-prompt/SKILL.md) 支持 robot real data 与 human real data，共用两步流程：
 
-1. First-frame RGB scene initialization: single-view MoGe-3 / multi-view Pi3X; first-frame point clouds only, with at most 10 later sparse RGB time indices for mesh completion and projection checks.
-2. 真实事件发现 → 按 robot/human 分支恢复或重定向动作 → 关键帧五问与按需邻域回归 → MuJoCo 接触执行与独立验收 → 回传 Blender 三方对照。
+1. **首帧 → Blender 静态场景**：单视角 MoGe-3 / 多视角 Pi3X；首帧 RGB 主导实例 mesh，仅首帧点云辅助深度/方向/尺度，最多10个后续稀疏 RGB 时间索引补全表面；URDF/XML 初始化机器人并投影复核。
+2. **真实动作 → 原生物理 → 三方对照**：真实事件发现、动作恢复/重定向、逐关键帧五问、MuJoCo 接触执行与完整回归、回传 Blender 并优化前后景外观。
 
-v1 增强：材质、纹理、灯光与主要背景补全；MuJoCo 原生轨迹回传 Blender 精细渲染；多视角联合拟合与留出帧检查；有假设、检查实际生效参数的接触校准。保留逐事件五问、异常前后检查和用户接受后的停止条件。
+## v4：人形机器人的首选与替代分支
 
-本次整合强化**事件驱动关键帧**：先从真实视频发现关系变化，再选事件前、发生时与事件后的证据。参考截图不能替代事件覆盖；真实与模拟事件独立记录，五问与逐步物理判定共同复核，异常向前后扩查。
+**首先尝试复现 real 视频中的 action，保持原轨迹、原接触点和原位置，确保在避免危险及高难动作、避免不稳定接触动作的前提下完成任务。如果无法执行，再保持原执行逻辑、尽量保持原位置，并继续避免危险及高难动作、避免不稳定接触动作。**
 
-修正持续累计，不设次数上限（`max_iterations=null`）；本轮必需检查通过或用户明确接受当前范围后停止。首帧接受不代表动作或物理成功。背景选择显著核心物体，每个构建完整实体结构，不以点云后处理薄面替代。
+| 候选 | 位置 | 轨迹／接触点 |
+| --- | --- | --- |
+| 首选 | 原位置 | 原轨迹、原接触点 |
+| 分支 A | 原位置 | 调整轨迹／接触点 |
+| 分支 B | 小幅左右／前后移动 | 尽量保留原轨迹、原接触点 |
 
-[首帧初始化](skills/real2sim-prompt/references/geometry-initialization.md) · [动作与物理衔接](skills/real2sim-prompt/references/motion-execution.md)
+原位置与原轨迹同等重要。首选未通过后，同一轮比较覆盖 A/B；两者不足时再考虑同时调整的 C。记录未运行分支的原因，局部失败不等于整项任务不可行。根据完整动作连贯性、稳定性、任务结果及实际改动选解，不只比较站位距离或接触覆盖率。
 
-[整体流程与经验](docs/pipeline-v1.md) · [关键帧、邻域五问与物理判据](skills/real2sim-prompt/references/events-and-review.md)
+优先减少非预期断触，复核接触建立、维持与撤离；任务完成不能替代接触稳定性判断。通过完整验收的替代轨迹标记 `success_adapted_trajectory`。固定骨盆或重力补偿结果不代表自由站立、步行或真机安全验证。
 
-历史 v1 示意（当前阶段划分以上文和 skill 为准）：
+[人形专项流程](skills/real2sim-prompt/references/humanoid-retargeting.md) · [v4 经验与边界](docs/v4-lessons.md)
 
-![Real2Sim Pipeline v1](docs/pipeline-v1.png)
+## 输入与硬件
 
-## 使用
+- **Robot**：同硬件优先复用实测关节、TCP与开合；RGB-only 用真实关节链拟合；换硬件显式重定向。
+- **Human**：第一步选择目标机器人并对齐初态；第二步第3环节将手与物体相对动作重定向为末端、关节和开合参考。
+- 硬件选择流程覆盖双 FR3 + Franka Hand / Wuji Hand / Sharpa Wave、准确版本的 ALOHA、宇树 G1 / H1-2 和用户提供的 URDF/MJCF。兼容、资产可用、仿真安装和任务通过分别记录，不将选项列表当作全部已验证。
+- G1 / H1-2 的末端按[有日期的官方兼容记录](skills/real2sim-prompt/references/target-robot-selection.md#宇树人形与末端选项)核对；H1 与 H1-2 分开，自带五指手不冒称 Dex5-1。只执行用户选定的硬件。
 
-将 `skills/real2sim-prompt` 文件夹放入 Codex 的个人 skills 目录 `~/.codex/skills/`，使用 `$real2sim-prompt` 调用。保留完整文件夹，入口会按需引用 `references/` 中的说明。
+## 第二步八环节
 
-[Real2Sim Prompt.md](Real2Sim%20Prompt.md) 是便于直接阅读的入口副本。主要维护文件位于 `skills/real2sim-prompt/`。
+| 环节 | 工作 |
+| --- | --- |
+| 1 | 接收已接受静态场景、源索引与目标机器人 |
+| 2 | 从真实视频发现交互关系变化与事件关键帧 |
+| 3 | 恢复运动参考，按输入/硬件重定向 |
+| 4 | 每个事件关键帧五问；问题邻域按需检查 |
+| 5 | 构建 MuJoCo 物理模型、核心背景显示及必要碰撞体 |
+| 6 | 分阶段接触执行：对准/角度、闭合/承载，再校准力与摩擦 |
+| 7 | 最终模型与初态完整回归，任务/接触/几何/视觉分别验收 |
+| 8 | 同一原生轨迹回传 Blender，前后景材质/纹理/灯光优化，输出 Real / Blender / MuJoCo RGB |
 
-## 范围
+视频交付区分实际物理速度与事件对齐播放；完整解码并核对帧身份。修正不设固定次数上限；复用未失效缓存，短段诊断后再完整回归、最终渲染。停止条件及接受范围以 skill 为准。
 
-本仓库发布操作流程与参考说明，不包含场景数据、模型权重、Blender/MuJoCo 场景资产或通用转换程序。文档内的本地案例路径仅说明经验来源，不代表这些案例已经打包。任务成功、几何验收和视觉对齐分别记录。
+## 安装与范围
 
-## 两步共用能力
+将完整 `skills/real2sim-prompt` 放入 `~/.codex/skills/`，以 `$real2sim-prompt` 调用。主要维护入口位于该目录；[Real2Sim Prompt.md](Real2Sim%20Prompt.md) 是可直接阅读的入口副本。
 
-- Stage 1: MoGe-3 / Pi3X first-frame geometry, RGB-led instance meshes, URDF/XML target robots, projection review and acceptance.
-- 第二步：真实事件与运动恢复 → 事件邻域五问 → MuJoCo 分段接触执行 → 完整物理回归 → 原生状态回传 Blender。
-- 抓取依次检查对准/角度、闭合量、双侧接触/滑移，再校准抓持力与摩擦。
-- 原生机器人、物体和物料统一绑定，重开 Blender 工程检查变换；按需输出同源 Real / Blender / MuJoCo 三方关键帧。
-- 修正不设次数上限；复用未失效缓存，仅渲染本轮所需关键帧或视频。具体停止条件以 skill 为准。
+本仓库发布流程与检查工具，不包含视频数据、模型权重、Blender/MuJoCo 资产或通用求解器。官方兼容快照需在实际执行时按版本复核；流程支持不等于所有硬件或场景成功。
 
-发布流程版本不代表所有案例已经通过视觉五问；任务成功、几何/数值稳定和视觉对齐分别报告。检查脚本只验证记录覆盖与证据关联，不代替实际看图。
-
-## v3 双输入分支
-
-- **Robot real data**：同硬件优先复用实测关节、末端与开合；缺少状态时由视觉与对应关节链拟合。更换硬件时显式执行 robot-to-robot 重定向。
-- **Human real data**：第一步配置目标机器人与静态初态；第二步第 3 环节将手/指尖与物体相对动作重定向为目标机器人的 TCP、方向、开合及关节参考，第 4 环节复核，再执行物理验证。
-- 第二步统一为八环节：接收场景、发现事件、恢复/重定向运动、五问复核、物理装配、分阶段执行、完整回归、回传与外观优化/三方输出。
-- 记录源动作与机器人适配的区别、各臂角色、坐标/尺度、时间缩放及生成续接段。单臂操作不能宣称双臂协作通过；无真实对应的续接帧单列。
-
-[双输入与重定向规范](skills/real2sim-prompt/references/input-and-retargeting.md) · [八环节说明](skills/real2sim-prompt/references/motion-execution.md)
-
-v3 发布的是流程支持，不代表全部机器人、人手任务或高保真重建已通过实测。两类输入共用独立的视觉、物理与时间验收。
-
-## v3.2 目标机械臂选择
-
-human data 在第一步选择并初始化目标机械臂与末端，第二步第3环节按硬件重定向，第4–7环节复核与物理验证，第8环节输出三方对照。支持双 FR3 + Franka Hand（原装平行夹爪）、双 FR3 + Wuji Hand、双 FR3 + Sharpa Wave、准确版本的 ALOHA 和用户提供的 URDF/MJCF；选择流程不等于每套硬件、每种任务都已通过。robot 同硬件数据仍走实测状态复用分支。
-
-详见[目标机械臂选择与适配](skills/real2sim-prompt/references/target-robot-selection.md)。多硬件共用已接受的静态背景和真实事件，分别验证安装、指垫、控制、原生接触和释放；案例参数与容差不作为通用默认值。
-
-几何初始化（robot/human 共用）：单视角视频/单张 RGB 使用 MoGe-3，多相机首帧保留 Pi3X；mesh 以首帧 RGB 为主、仅首帧点云为辅，结合不超过10个后续重要稀疏 RGB 帧补全并投影复核；后续不新增参考点云。第二步第8环节继续完成前后景纹理与灯光优化。
-
-## v3.2 release
-
-- Both human and robot inputs: single-view MoGe-3 or multi-view Pi3X initialization using first-frame geometry only.
-- Build meshes primarily from first-frame RGB, with point clouds assisting depth, orientation and scale. Use at most 10 additional sparse time indices for RGB completion and reprojection checks; do not add later-frame reference clouds.
-- Separate camera motion from object motion. The 10-frame bound applies to geometry support frames, not action events or diagnostic neighborhoods.
-- Hardware choices: dual FR3 + Franka Hand, dual FR3 + Wuji Hand, dual FR3 + Sharpa Wave, and ALOHA (local example: ALOHA 2). Historical custom-gripper/Allegro results do not validate replacement hardware.
-- Stage 8 retains foreground/background material, texture and lighting optimization and frame-matched Real / Blender / MuJoCo RGB.
-- Record unavailable inference environments and unvalidated hardware honestly; this release packages workflow instructions, not scene assets or a universal retargeting solver.
-
-## v3.3：四硬件执行经验
-
-保留 v3.2 的两步八环节与 robot/human 双输入、MoGe-3/Pi3X 首帧初始化规则。新增实际碰撞面与法向适配、非抓持手指避让、释放路径和整体包含检查、异常几何指标复核，以及全输出帧原生状态/相机绑定验收。
-
-[执行排查参考](skills/real2sim-prompt/references/contact-and-delivery.md) · [EgoDex 1338 经验与边界](docs/v3.3-lessons.md)
+历史版本标签保持不变：[v3.3 经验](docs/v3.3-lessons.md) · [v1 历史示意](docs/pipeline-v1.md)。当前规则以 v4 为准。

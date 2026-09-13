@@ -2,10 +2,10 @@
 name: real2sim-prompt
 description: Reconstruct scenes from real robot or human video in Blender; replay robot demonstrations or select target hardware and retarget human actions to it, execute and validate contacts in MuJoCo, and export frame-matched comparisons.
 metadata:
-  version: "v3.3"
+  version: "v4"
 ---
 
-# Real2Sim Prompt v3.3
+# Real2Sim Prompt v4
 
 分两步处理 Real2Sim / Human2Robot：**第一步，真实输入首帧 → 对齐的 Blender 静态场景；第二步，真实视频动作 → MuJoCo 实际物理执行 → 回传 Blender 多视角渲染。** 两步共用源索引、交互关键帧、坐标与参数来源记录。默认追求**可用的交互重建**；先让目标、相机方向、相对位置和操作过程可辨认，再按任务需要提高精度。用户认可的质量是当前项目的验收依据，不因仍有差异而无限返工。
 
@@ -16,7 +16,7 @@ metadata:
 - **robot real data**：同硬件优先使用实测关节、TCP 与开合；RGB-only 用对应硬件关节链拟合。换硬件时显式执行 robot-to-robot 重定向。
 - **human real data**：第一步选择/初始化目标机器人并对齐静态初态；**第二步第 3 环节**将手部与对象相对动作重定向成目标机器人的末端、关节和夹爪参考，再经第 4 环节复核和第 5–7 环节物理验证。
 
-human 输入在第一步按用户选择确定机械臂与末端，未指定时采用已接受配置或说明选型依据。支持双 FR3 + Franka Hand（原装平行夹爪）、双 FR3 + Wuji Hand、双 FR3 + Sharpa Wave、ALOHA 系列及用户提供的 URDF/MJCF；硬件名称不等于任务已验证。选型、换硬件和多候选比较时读[目标机械臂选择与适配](skills/real2sim-prompt/references/target-robot-selection.md)。
+human 输入在第一步按用户选择确定机械臂与末端，未指定时采用已接受配置或说明选型依据。支持双 FR3 + Franka Hand（原装平行夹爪）、双 FR3 + Wuji Hand、双 FR3 + Sharpa Wave、ALOHA 系列、宇树 G1/H1-2 及用户提供的 URDF/MJCF；硬件名称不等于任务已验证。选型、换硬件和多候选比较时读[目标机械臂选择与适配](skills/real2sim-prompt/references/target-robot-selection.md)。
 
 第二步固定使用同一编号，详见 [八环节执行说明](skills/real2sim-prompt/references/motion-execution.md)：
 
@@ -42,6 +42,18 @@ human 输入在第一步按用户选择确定机械臂与末端，未指定时�
 - **高保真/研究验证**：仅在明确需要时增加完整相机标注、精细外观、实测动力学辨识或连续检测等成本。可用重建不默认升级到此等级。
 
 用户明确接受某版本时，记录场景哈希、接受范围、已知偏差与依据，停止追究已接受的非阻塞项。静态阶段用 `phase_acceptance.json` 绑定原话、候选与输入；用户接受非关键背景近似可以结束第一步，不能据此宣称动作、接触或动力学通过。保留历史测量，不能把用户接受改写为测量误差为零；单场景的容差不能推广为通用阈值。
+
+### 人形机器人：保真优先与任务完成
+
+人形目标执行前读[人形重定向、候选比较与验收](skills/real2sim-prompt/references/humanoid-retargeting.md)，硬件组合按[官方兼容与资产记录](skills/real2sim-prompt/references/target-robot-selection.md#宇树人形与末端选项)核实。**首先尝试复现 real 视频中的 action，保持原轨迹、原接触点和原位置，确保在避免危险及高难动作、避免不稳定接触动作的前提下完成任务。如果无法执行，再保持原执行逻辑、尽量保持原位置，并继续避免危险及高难动作、避免不稳定接触动作。** 优先减少非预期断触，检查接触建立、维持及撤离的稳定性；不以任务终态代替接触复核。
+
+先尝试原站位＋原物体相对轨迹/接触。两者是同等重要的保真目标；未通过时，同一轮候选比较覆盖 **A：原位置＋新轨迹/接触** 与 **B：小幅新位置＋原轨迹/接触**，再按需要考虑两者均调整的 C。看完整动作连贯性、稳定性与任务结果选择；未跑分支写未验证，局部失败不证明整体不可行。固定骨盆成功只覆盖该仿真条件，不能证明自由站立或真机安全。
+
+## 原轨迹与替代轨迹的验收标记
+
+robot/human 换硬件时，允许在原示范无法完成后调整路径、接触方式或阶段时长完成同一任务。符合当前接受范围且通过完整原生回归的替代轨迹记为 `success_adapted_trajectory`，也算 Real2Sim 成功；与原轨迹的差异单列，不声称精确复现。保持硬件尺度、任务对象与原执行逻辑，保留原方案失败证据、候选实际改动、原因和源事件到模拟时间的映射。人形位置调整按上面的同等优先规则，用户明确固定站位时不得移动。
+
+五问仍检查相机、场景、对象关系、接触和外观；已披露且符合授权的轨迹差异不重复作为阻塞项。视频明显区分“原生实际速度”与“事件对齐的替代轨迹”；不能用时间压缩掩盖停顿、重试或冲击。
 
 ## 五问是执行门槛
 

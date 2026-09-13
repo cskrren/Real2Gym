@@ -1,4 +1,4 @@
-# v3.3：Human data 的目标机械臂选择
+# 目标机器人选择与适配（v4）
 
 仅 human-to-robot、换硬件或多硬件比较时读取。同硬件 robot data 沿用输入分支，不引入额外选型或人体重建。这里是执行流程支持，不是自动下载所有模型的安装器，也不是通用重定向求解器。
 
@@ -51,3 +51,18 @@
 当前第二项按用户选择由 Allegro 改为 Wuji Hand。官方资产：https://github.com/wuji-technology/wuji-hand-description ，本地展示 commit `bbc2f64eec834aae616eacc2db1f69016f860c2d`。本次为 Wuji Hand，未声明 Wuji Hand 2。现有 FR3 组合仅完成静态模型展示，安装件、接触控制与任务执行仍需验证；历史 Allegro 成功不可归属于 Wuji。
 
 Sharpa 当前展示资产为 MuJoCo Menagerie `sharpa_wave`（左右手），厂商名称 Sharpa Wave。当前仅静态结构展示，FR3 转接件是仿真假设，未验证实际安装或任务。
+
+
+## 宇树人形与末端选项
+
+按官方具体机型、版本和装配资产选择，不把各控制器可枚举的组合当作全部机械兼容。2026-09-11 核对：
+
+| 机器人 | 当前主要选项 | 可选项 | 官方依据与限制 |
+| --- | --- | --- | --- |
+| G1 | Dex3-1 | Dex1-1、Dex2/5 | [官方遥操作仓库](https://github.com/unitreerobotics/xr_teleoperate)、官方 G1 URDF 的 Dex1-1 / Dex3-1 完整装配；[Dex2/5 产品页](https://www.unitree.com/Dex2-5/)明确适配 G1/R1。核对 EDU/旗舰版本与接口。 |
+| H1-2 | `xr_teleoperate/assets/h1_2/h1_2.xml` 自带五指手 | Dex5-1 | [自带装配模型](https://github.com/unitreerobotics/xr_teleoperate/blob/main/assets/h1_2/h1_2.xml)；[H1/H1-2 官方参数表](https://www.unitree.com/cn/h1/)在 H1-2 栏注明可选 Dex5-1。自带手与 Dex5-1 是不同资产，不能互换名称。 |
+| H1（4 自由度手臂） | 单独核对所选官方完整装配 | 不继承 H1-2 的兼容列表 | 官方参数表 H1 手部只写“选配”；没有具体组合证据时标未核实，不推断 Dex5-1、Dex1-1、Dex2/5 通用适配。 |
+
+每轮仅执行用户选中的硬件，可选项不自动发起测试。完整官方 MJCF 优先保留其左右手安装变换、关节链、碰撞资产和力限制。独立手 URDF 的存在不证明已经取得对应机器人安装件；缺安装/CAD 时记录估计，不能宣称官方完整适配已经验证。Dex2/5 的联动与 Dex5-1 的被动关节按对应官方描述实现，不把全部可见关节当独立驱动器。对未来版本重新核对官方来源，不将本表当永久兼容保证。
+
+人形执行规则集中于[人形重定向与验收](humanoid-retargeting.md)。本表保留上述日期的核对记录；实际执行按选定版本再次确认，不把可选硬件列入自动批跑范围。
