@@ -3,7 +3,7 @@
   "mode": "built_in",
   "model": "not exposed by tool",
   "output": "real2gym-overview.png",
-  "sha256": "e1c109b53c5ee155e9b841654455521fe5f49edcdcaf2e0441369274bbd7c501",
+  "sha256": "9ac6e2076b41bb3d9ade611b36ff90a40201c3841ee634a52ac9aeca4b12d0f4",
   "prompt": "hero-generation-prompt.txt",
   "design_brief": "hero-prompt.txt",
   "visual_review": "Inspected final image: upper orange curved arrow and its text removed; MuJoCo and all three augmentation panels use reduced-texture matte rendering; Blender retains richer materials. Table-height panel shows an independent floor-standing robot pedestal separate from tabletop. Visible open microwave doors and one arm per applicable panel retained. Conceptual artwork, not measured simulator evidence.",
@@ -25,5 +25,12 @@
       "sha256": "c4342da6529cf7bfb1df2c68daf55515fceb2a620149290f2c52ad28c80cc443",
       "source": "user-provided visual reference"
     }
-  ]
+  ],
+  "previous_generated_sha256": "e1c109b53c5ee155e9b841654455521fe5f49edcdcaf2e0441369274bbd7c501",
+  "selected_source": {
+    "type": "user_supplied_final_image",
+    "file_name": "codex-clipboard-72af387b-5ae8-4e45-9d1c-0193803918ba.png",
+    "sha256": "9ac6e2076b41bb3d9ade611b36ff90a40201c3841ee634a52ac9aeca4b12d0f4",
+    "copied_without_modification": true
+  }
 }

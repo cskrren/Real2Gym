@@ -16,3 +16,5 @@ Generated with the built-in image tool after user authorization. The tool does n
 This is conceptual AI-generated artwork, not a real input video, a simulator render or benchmark evidence. Depicted robots, tool marks and environments are illustrative; no endorsement is implied. The three illustration panels summarize the framework rather than replacing its detailed three-step workflow.
 
 The latest table-height illustration uses a ground-mounted independent robot pedestal, per the requested visual reference. This artwork choice does not change the skill rule that mounting relationships determine whether a robot follows table height.
+
+The current README image is the exact final image supplied by the user, copied without modification. Its file hash and selection record are stored in `hero-generation.json`; the generation history above documents earlier artwork preparation.

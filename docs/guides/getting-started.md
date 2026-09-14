@@ -4,11 +4,11 @@ Real2Gym is operated by a tool-using agent. Installing the skill gives the agent
 
 ## 1. Prepare the validation environment
 
-From the repository root, create a Python virtual environment and install `requirements-validation.txt`. Python 3.11 is the CI target. NumPy and Pillow are sufficient for the included validators/tests; they are not the full reconstruction dependencies.
+From the repository root, create a Conda environment and install `requirements-validation.txt`. Python 3.11 is the CI target. NumPy and Pillow are sufficient for the included validators/tests; they are not the full reconstruction dependencies.
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+conda create -n real2gym python=3.11 -y
+conda activate real2gym
 python -m pip install -r requirements-validation.txt
 python -m unittest discover -s tests -v
 ```
