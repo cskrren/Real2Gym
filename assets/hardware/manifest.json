@@ -1,0 +1,115 @@
+{
+  "purpose": "Real2Gym hardware selection previews",
+  "models": [
+    {
+      "id": "fr3_hand",
+      "title": "Dual FR3 + Franka Hand",
+      "image": "fr3_hand.png",
+      "sha256": "02370203e9f5c8f95de1b4740bfa6261b5bb24dbe00819bbe8d09fb39f694d6f",
+      "dimensions": [
+        1200,
+        900
+      ],
+      "source_gallery": "real2sim_v3_human2robot/hardware_gallery",
+      "source_record": {
+        "id": "fr3_hand",
+        "title": "Dual FR3 + Franka Hand",
+        "note": "标准双指夹爪；此图使用 Menagerie 的 Franka/Panda Hand 标准网格与结构，并非此前自定义长夹指。FR3安装关系用于结构展示，尚未在抽屉任务验证。",
+        "xml_sha256": "0d74db7161fe4b1ddecd8151bdef3c8b6125977cbbf778074f4db8e840ad2ec8"
+      },
+      "usage": "Existing static model render copied without image modification; configuration preview, not task outcome."
+    },
+    {
+      "id": "fr3_wuji",
+      "title": "Dual FR3 + Wuji Hand",
+      "image": "fr3_wuji.png",
+      "sha256": "708ebd06848dc64e977dbb23d4d33ebfb49e3365d0a0b0653bde11b0639e05b1",
+      "dimensions": [
+        1200,
+        900
+      ],
+      "source_gallery": "real2sim_v3_human2robot/hardware_gallery",
+      "source_record": {
+        "id": "fr3_wuji",
+        "title": "Dual FR3 + Wuji Hand",
+        "note": "Wuji 官方左右五指手模型；FR3 转接安装仅用于结构展示，尚未验证真实装配或抽屉任务。",
+        "xml_sha256": "cc5aed42acbeb1db5dbf970275e9097d603ea4b92fee9a2a36220042775fe3c3"
+      },
+      "usage": "Existing static model render copied without image modification; configuration preview, not task outcome."
+    },
+    {
+      "id": "fr3_sharpa",
+      "title": "Dual FR3 + Sharpa Wave",
+      "image": "fr3_sharpa.png",
+      "sha256": "575c0aff3442a42a71df61f6a667e5812c9761c8227b5ab873511784bd4ffac3",
+      "dimensions": [
+        1200,
+        900
+      ],
+      "source_gallery": "real2sim_v3_human2robot/hardware_gallery",
+      "source_record": {
+        "id": "fr3_sharpa",
+        "title": "Dual FR3 + Sharpa Wave",
+        "note": "Sharpa Wave 左右五指手，Menagerie 简化模型；FR3 转接件仅为展示，未验证安装、触觉或任务执行。",
+        "xml_sha256": "b66d752d64f43aa8ddafaa6a7295cf7c591947186c6720e22ae3c438fc6714aa"
+      },
+      "usage": "Existing static model render copied without image modification; configuration preview, not task outcome."
+    },
+    {
+      "id": "aloha2",
+      "title": "ALOHA 2",
+      "image": "aloha2.png",
+      "sha256": "df439b75606bf4f5a9ed4d1a6da67aa04a498386090330c9945bc1f1f2dd239e",
+      "dimensions": [
+        1200,
+        900
+      ],
+      "source_gallery": "real2sim_v3_human2robot/hardware_gallery",
+      "source_record": {
+        "id": "aloha2",
+        "title": "ALOHA 2",
+        "note": "本地准确版本为 ALOHA 2；整套双臂和原有夹爪/腕部相机结构。",
+        "xml_sha256": "3d3588824a593c1d9085ae3891e0aecb90b0ed5a4c5690258b13f6f41ea9d42f"
+      },
+      "usage": "Existing static model render copied without image modification; configuration preview, not task outcome."
+    },
+    {
+      "id": "g1_dex3",
+      "title": "G1 + Dex3-1",
+      "image": "g1_dex3.png",
+      "sha256": "bdea44aef770cf01eb13341f0ab03ac8f5e7f0941f2a1a010ba90ebd0c6bc8ad",
+      "dimensions": [
+        1000,
+        1100
+      ],
+      "source_gallery": "real2sim_v3_3/humanoid_gallery",
+      "source_record": {
+        "id": "g1_dex3",
+        "label": "G1 29DoF + Dex3-1",
+        "source_sha256": "c7bec8183aebdc23be735bdc6705a0adc4b0fba230ecbd46a42f0fe4a7269951",
+        "note": "static visual inspection; no task or balance validation",
+        "source_commit": "817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b"
+      },
+      "usage": "Existing static model render copied without image modification; configuration preview, not task outcome."
+    },
+    {
+      "id": "h1_2",
+      "title": "H1-2 + stock five-finger hands",
+      "image": "h1_2.png",
+      "sha256": "57d065a71a85228d1b57e413aebf6bd704a9d419da9e31d70538fed1ce58081a",
+      "dimensions": [
+        1000,
+        1100
+      ],
+      "source_gallery": "real2sim_v3_3/humanoid_gallery",
+      "source_record": {
+        "id": "h1_2",
+        "label": "H1-2 + five-finger hands",
+        "source_sha256": "b8793e0ecc6c687db4ce5a601ef111f6f2c31e7425b1ccc1e2fba16d05453a96",
+        "note": "static visual inspection; no task or balance validation",
+        "source_commit": "817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b"
+      },
+      "usage": "Existing static model render copied without image modification; configuration preview, not task outcome."
+    }
+  ]
+}

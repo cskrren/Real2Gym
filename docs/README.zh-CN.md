@@ -1,8 +1,8 @@
 ![Real2Gym 框架介绍](../assets/real2gym-overview.png)
 
-**从人手或机器人视频，构建场景、执行动作，再生成有验证证据的仿真变体。**
+**中文** | [English](../README.md)
 
-*概念介绍图。[图片来源](../assets/README.md)。*
+**从人手或机器人视频，构建场景、执行动作，再生成有验证证据的仿真变体。**
 
 Real2Gym 由 **GPT6 Astra** 协调 **Blender 场景重建、MuJoCo 动作执行与反馈迭代**。
 
@@ -21,7 +21,29 @@ Real2Gym 由 **GPT6 Astra** 协调 **Blender 场景重建、MuJoCo 动作执行�
 | **2. 执行** | 动作恢复／重定向、接触调整、完整物理回归 | MuJoCo 模型、原生轨迹、**Real / Blender / MuJoCo RGB** 对照 |
 | **3. 增强** | 组合机械变化与外观变化，逐项验证 | 带参数差异及运行证据的仿真场景集合 |
 
-[详细流程](guides/pipeline.md) · [硬件选择](../skills/real2sim-prompt/references/target-robot-selection.md) · [验收说明](guides/validation.md)
+## 硬件选择
+
+人手示范可选择目标机器人进行动作重定向；同硬件机器人示范沿用源机器人。
+
+<table>
+<tr>
+<td align="center" width="33%"><img src="../assets/hardware/fr3_hand.png" height="180" alt="Dual FR3 + Franka Hand"><br><b>Dual FR3 + Franka Hand</b></td>
+<td align="center" width="33%"><img src="../assets/hardware/fr3_wuji.png" height="180" alt="Dual FR3 + Wuji Hand"><br><b>Dual FR3 + Wuji Hand</b></td>
+<td align="center" width="33%"><img src="../assets/hardware/fr3_sharpa.png" height="180" alt="Dual FR3 + Sharpa Wave"><br><b>Dual FR3 + Sharpa Wave</b></td>
+</tr>
+<tr>
+<td align="center" width="33%"><img src="../assets/hardware/aloha2.png" height="180" alt="ALOHA 2"><br><b>ALOHA 2</b></td>
+<td align="center" width="33%"><img src="../assets/hardware/g1_dex3.png" height="180" alt="G1 + Dex3-1"><br><b>G1 + Dex3-1</b></td>
+<td align="center" width="33%"><img src="../assets/hardware/h1_2.png" height="180" alt="H1-2 + stock five-finger hands"><br><b>H1-2 + stock five-finger hands</b></td>
+</tr>
+</table>
+
+- **平行夹爪**：双 FR3 + Franka Hand、ALOHA 2。
+- **灵巧手**：双 FR3 + Wuji Hand、Sharpa Wave。
+- **人形机器人**：G1 + Dex3-1、H1-2 + 自带五指手。
+- **自定义硬件**：提供完整 URDF/MJCF 与末端描述。
+
+[配置细节与末端选项](../skills/real2sim-prompt/references/target-robot-selection.md) · [模型图来源](../assets/hardware/README.md)
 
 ## 快速使用
 
@@ -29,8 +51,11 @@ Real2Gym 由 **GPT6 Astra** 协调 **Blender 场景重建、MuJoCo 动作执行�
 
 使用 Conda 创建 `real2gym` 环境（Python 3.11），命令见[英文快速开始](../README.md#get-started)。按[环境准备指南](guides/getting-started.md)配置 Blender、MuJoCo、几何模型和机器人资产，然后向 agent 提供视频路径、输入类型、目标硬件和输出目录。[示例请求](../examples/README.md)
 
-当前发布 **v5.2 执行 skill 与验收工具**；建模和控制仍由 agent 结合场景代码完成，尚未包含一键求解器、Gymnasium API 或训练引擎。
+[引用方式](../README.md#citation)
 
-[引用方式](../README.md#citation) · [目录结构](guides/repository.md) · [贡献说明](../CONTRIBUTING.md)
+## 致谢
 
-*仓库许可证和正式作者名单待确认，详见[许可与署名](guides/licensing.md)。*
+感谢 **GPT6 Astra** 在 Real2Gym 开发与迭代中的协助，也感谢以下项目提供的思路与参考实现：
+
+- [GPT6-real2sim](https://github.com/lingxiao-guo/GPT6-real2sim)
+- [Real2Sim_GPT6_ASTRA](https://github.com/hku-sail/Real2Sim_GPT6_ASTRA)

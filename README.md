@@ -1,10 +1,10 @@
 ![Real2Gym: real videos, Blender reconstruction, MuJoCo execution and scene augmentation](assets/real2gym-overview.png)
 
+[中文](docs/README.zh-CN.md) | **English**
+
 **From human or robot videos to reconstructed scenes, executable actions, and validated simulation variants.**
 
-*Conceptual illustration. [Image provenance](assets/README.md).*
-
-[Get started](#get-started) · [Pipeline](docs/guides/pipeline.md) · [Examples](examples/README.md) · [中文](docs/README.zh-CN.md) · [Citation](#citation)
+[Get started](#get-started) · [Hardware](#hardware-selection) · [Pipeline](docs/guides/pipeline.md) · [Examples](examples/README.md) · [Citation](#citation)
 
 Real2Gym uses **GPT6 Astra** to coordinate scene reconstruction, action adaptation and feedback-driven refinement across **Blender and MuJoCo**.
 
@@ -23,7 +23,29 @@ Real2Gym uses **GPT6 Astra** to coordinate scene reconstruction, action adaptati
 | **2. Execute** | Recover or retarget motion, refine contacts and verify the complete task | MuJoCo model, native trajectory, **Real / Blender / MuJoCo RGB** comparisons |
 | **3. Augment** | Combine mechanical changes with appearance variations and test execution | Validated scene family with parameter changes and run evidence |
 
-[Full pipeline](docs/guides/pipeline.md) · [Hardware selection](skills/real2sim-prompt/references/target-robot-selection.md) · [Evidence validation](docs/guides/validation.md)
+## Hardware selection
+
+Choose the target robot for human-to-robot retargeting, or retain the source robot for same-hardware demonstrations.
+
+<table>
+<tr>
+<td align="center" width="33%"><img src="assets/hardware/fr3_hand.png" height="180" alt="Dual FR3 + Franka Hand"><br><b>Dual FR3 + Franka Hand</b></td>
+<td align="center" width="33%"><img src="assets/hardware/fr3_wuji.png" height="180" alt="Dual FR3 + Wuji Hand"><br><b>Dual FR3 + Wuji Hand</b></td>
+<td align="center" width="33%"><img src="assets/hardware/fr3_sharpa.png" height="180" alt="Dual FR3 + Sharpa Wave"><br><b>Dual FR3 + Sharpa Wave</b></td>
+</tr>
+<tr>
+<td align="center" width="33%"><img src="assets/hardware/aloha2.png" height="180" alt="ALOHA 2"><br><b>ALOHA 2</b></td>
+<td align="center" width="33%"><img src="assets/hardware/g1_dex3.png" height="180" alt="G1 + Dex3-1"><br><b>G1 + Dex3-1</b></td>
+<td align="center" width="33%"><img src="assets/hardware/h1_2.png" height="180" alt="H1-2 + stock five-finger hands"><br><b>H1-2 + stock five-finger hands</b></td>
+</tr>
+</table>
+
+- **Parallel grippers:** dual FR3 + Franka Hand or ALOHA 2.
+- **Dexterous hands:** dual FR3 + Wuji Hand or Sharpa Wave.
+- **Humanoids:** G1 + Dex3-1 or H1-2 + its stock five-finger hands.
+- **Custom hardware:** provide a complete URDF/MJCF and end-effector description.
+
+[Configuration details and end-effector options](skills/real2sim-prompt/references/target-robot-selection.md) · [Model preview sources](assets/hardware/README.md)
 
 ## Get started
 
@@ -53,8 +75,6 @@ and frame-matched Real / Blender / MuJoCo RGB comparisons.
 
 For step 3, start from an accepted scene and specify augmentation and retry budgets. [Robot, human and augmentation examples →](examples/README.md)
 
-**Current release:** v5.2 workflow skill and evidence validators. Scene construction and control remain agent-driven with task-specific code; a one-command solver, Gymnasium API and training engine are not yet included. [Validation scope](docs/guides/validation.md)
-
 ## Citation
 
 Please cite Real2Gym and record the exact tag or commit used:
@@ -68,6 +88,9 @@ Please cite Real2Gym and record the exact tag or commit used:
 }
 ```
 
-[CITATION.cff](CITATION.cff) · [Contributing](CONTRIBUTING.md) · [Repository guide](docs/guides/repository.md)
+## Acknowledgements
 
-*Repository license and formal author list are pending confirmation. [Licensing and attribution](docs/guides/licensing.md).*
+We thank **GPT6 Astra** for its assistance in developing and refining Real2Gym, and the following projects for their ideas and reference implementations:
+
+- [GPT6-real2sim](https://github.com/lingxiao-guo/GPT6-real2sim)
+- [Real2Sim_GPT6_ASTRA](https://github.com/hku-sail/Real2Sim_GPT6_ASTRA)
