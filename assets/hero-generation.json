@@ -3,12 +3,14 @@
   "mode": "built_in",
   "model": "not exposed by tool",
   "output": "real2gym-overview.png",
-  "sha256": "b01fc31eae7eb6b99b6fb141d06b0e954789fefce051a2368ddee46ae4b85bd2",
+  "sha256": "fc063a0a908a90a77e388b2b130bc21656b25127e05fa36a9ca54b6060699e4e",
   "prompt": "hero-generation-prompt.txt",
   "design_brief": "hero-prompt.txt",
-  "visual_review": "Inspected generated image: title, subtitle, GPT6 Astra, inputs, execution and augmentation are legible. Same blue mug/microwave example links the stages. Conceptual illustration only; not native task evidence.",
+  "visual_review": "Inspected final image: exactly one arm in each panel; left and center share a corresponding primary camera/robot/object composition. Center and augmentation panels use visibly simplified matte CG materials. Augmentation illustrates background replacement and object translation. Conceptual correspondence, not measured pixel-perfect alignment or actual experiment evidence.",
   "dimensions": [
     1672,
     941
-  ]
+  ],
+  "revision_prompts": "hero-revision-prompts.json",
+  "revision": 2
 }

@@ -6,6 +6,7 @@ Generated with the built-in image tool after user authorization. The tool does n
 
 - [Design brief](hero-prompt.txt)
 - [Exact generation prompt](hero-generation-prompt.txt)
+- [Revision prompts: single-arm alignment and simplified simulation appearance](hero-revision-prompts.json)
 - [Generation and review record](hero-generation.json)
 
 This is conceptual AI-generated artwork, not a real input video, a simulator render or benchmark evidence. Depicted robots, tool marks and environments are illustrative; no endorsement is implied. The three illustration panels summarize the framework rather than replacing its detailed three-step workflow.
