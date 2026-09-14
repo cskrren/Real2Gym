@@ -1,0 +1,14 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built_in",
+  "model": "not exposed by tool",
+  "output": "real2gym-overview.png",
+  "sha256": "b01fc31eae7eb6b99b6fb141d06b0e954789fefce051a2368ddee46ae4b85bd2",
+  "prompt": "hero-generation-prompt.txt",
+  "design_brief": "hero-prompt.txt",
+  "visual_review": "Inspected generated image: title, subtitle, GPT6 Astra, inputs, execution and augmentation are legible. Same blue mug/microwave example links the stages. Conceptual illustration only; not native task evidence.",
+  "dimensions": [
+    1672,
+    941
+  ]
+}

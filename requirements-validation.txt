@@ -1,0 +1,3 @@
+# Evidence validators and their synthetic tests only.
+numpy>=1.26,<3
+Pillow>=10,<13
