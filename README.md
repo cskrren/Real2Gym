@@ -1,13 +1,27 @@
 # Real2Sim Skills
 
-Current release: **v5 — factorized scene augmentation with native validation**.
+Current release: **v5.2 — native evidence binding and augmentation validation**.
 
-[Real2Sim Prompt v5](skills/real2sim-prompt/SKILL.md) 支持 robot real data 与 human real data，共用两步重建，并按需执行第三步增强：
+[Real2Sim Prompt v5.2](skills/real2sim-prompt/SKILL.md) 支持 robot real data 与 human real data，共用两步重建，并按需执行第三步增强：
 
 1. **首帧 → Blender 静态场景**：单视角 MoGe-3 / 多视角 Pi3X；首帧 RGB 主导实例 mesh，仅首帧点云辅助深度/方向/尺度，最多10个后续稀疏 RGB 时间索引补全表面；URDF/XML 初始化机器人并投影复核。
 2. **真实动作 → 原生物理 → 三方对照**：真实事件发现、动作恢复/重定向、逐关键帧五问、MuJoCo 接触执行与完整回归、回传 Blender 并优化前后景外观。
 
 3. **分层增强 → 动作适配 → 原生验证**：单项探测采样范围，随机选择1–3项机械修改，失败后保持组合缩幅重试；对通过场景加入前后景纹理、真实干扰物、完整背景与适度灯光，构成 `(1+N)×(1+M)` 候选。
+
+## v5.2：验收工具
+
+新增原生证据关联检查与第三步独立验收器，保留v5.1规则。显式任务范围决定物理要求；校验模型、控制、初态、轨迹、指标的版本关联；第三步检查父子参数差异、支撑/安装证据、显示/碰撞审计和双端关键帧身份。保持Real2Sim范围，不引入跨任务动作接口。
+
+[使用与记录格式](skills/real2sim-prompt/references/native-and-augmentation-gates.md)。运行依赖NumPy、Pillow；`python -m unittest discover -s tests -v`。工具验证关联与记录，不重新执行模拟或代替语义评估；现有生产脚本需接入记录，历史结果不自动认证。缓存调度器仍未实现。
+
+## v5.1：三项补全
+
+- 物理指标：分别检查平移速度、角速度及持续稳定时间；区分正常接触容差、待复核接触和任务阻塞穿入。
+- 多样性：最终参数精确/近似去重，缩幅后重新检查；统计背景、参数和幅度分布，均衡采样可选，不强制每个候选覆盖全部类别。
+- 缓存恢复：统一依赖清单、内容哈希、逐帧恢复与失效规则。定义执行接口，现有场景脚本仍须接入，不宣称统一缓存调度器已实现。
+
+[详细规范](skills/real2sim-prompt/references/metrics-diversity-cache.md)。本版不重新运行或改判v5的历史场景。
 
 ## v5：第三步分层增强
 
@@ -61,4 +75,4 @@ N接受单项和多项修改，不强求类别覆盖。杯子和微波炉等任�
 
 本仓库发布流程与检查工具，不包含视频数据、模型权重、Blender/MuJoCo 资产或通用求解器。官方兼容快照需在实际执行时按版本复核；流程支持不等于所有硬件或场景成功。
 
-历史版本标签保持不变：[v3.3 经验](docs/v3.3-lessons.md) · [v1 历史示意](docs/pipeline-v1.md)。当前规则以 v5 为准。
+历史版本标签保持不变：[v3.3 经验](docs/v3.3-lessons.md) · [v1 历史示意](docs/pipeline-v1.md)。当前规则以 v5.2 为准。

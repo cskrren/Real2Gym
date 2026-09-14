@@ -1,4 +1,4 @@
-# 逐轮反馈与阶段门槛（v2）
+# 逐轮反馈与阶段门槛（v5.2）
 
 执行建模、修改、复现任务时读取；历史结果比较不触发新一轮建模。
 
@@ -26,7 +26,7 @@ python scripts/check_review_gate.py /absolute/candidate/review_gate.json --stage
 python scripts/check_review_gate.py /absolute/candidate/review_gate.json --stage deliver
 ```
 
-review 检查记录、文件哈希、全部帧视角覆盖及问题关联；允许存在失败结论，以便记录诚实的失败候选。physics 额外要求相机、相对位置、几何与所有 blocking 项已关闭；deliver 同样要求这些门槛，若本轮需要原生物理则还要求 physics.status=pass。拒绝返回非零退出码和明确问题列表。失败报告可正常交付，但必须显式标 failed_delivery 并保留拒绝结果，不能伪造 gate pass。
+review 检查记录、文件哈希、全部帧视角覆盖及问题关联；允许存在失败结论，以便记录诚实的失败候选。physics 额外要求相机、相对位置、几何与所有 blocking 项已关闭；deliver 同样要求这些门槛，按显式task_scope判定原生要求，并校验模型/控制/初态/轨迹/结果关联及实际指标，不接受仅physics.status=pass。拒绝返回非零退出码和明确问题列表。失败报告可正常交付，但必须显式标 failed_delivery 并保留拒绝结果，不能伪造 gate pass。
 
 没有脚本可以判断模型是否真的看了图或是否作出合理视觉判断。禁止为获得退出码 0 自动写 pass、把 blocking 清零、删 required_frames、缩小 views 或在无用户认可时填 accepted_by_user。
 
@@ -54,3 +54,7 @@ review 检查记录、文件哈希、全部帧视角覆盖及问题关联；允�
 用户接受的非关键背景外观/局部身份歧义作为范围内非阻塞偏差，结束静态返工。严格证据检查曾因缺 mask/unknown 拒绝时，保留原始结果；记录 `strict_evidence_result` 与 `user_accepted_scope`，不能伪造 mask、把 unknown 改成测量 pass，或将程序退出码改成成功。现有校验器只表达严格证据门槛，不完整表达用户接受范围；两种状态并列报告。用户接受后可以准备动作、局部运动与接触诊断；任务相关相机、交互物体和每个新事件的五问/原生物理要求仍需独立满足。
 
 后续运动进入该背景的接触范围、显露重要遮挡区域，或改变共享相机/尺度时，只重开受影响项。相机/交互目标的阻塞错误、缺失物理结果不能被背景接受范围豁免。
+
+## v5.2 原生证据与第三步
+
+所有范围显式记录task_scope、physics_required和scope_basis；格式、依赖及迁移说明见[原生与增强验收](native-and-augmentation-gates.md)。第三步使用独立check_augmentation_gate.py，不套用真实RGB对齐覆盖。

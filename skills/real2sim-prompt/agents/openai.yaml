@@ -1,4 +1,4 @@
 interface:
-  display_name: "Real2Sim Prompt v5"
+  display_name: "Real2Sim Prompt v5.2"
   short_description: "机器人与人手视频重建、动作重定向、物理执行与分层场景增强"
   default_prompt: "使用 $real2sim-prompt 先识别 robot/human 输入；human 数据按用户选择或任务需求确定机械臂与末端，完成场景和目标机器人静态对齐，再按分支复用或重定向动作、验证 MuJoCo 原生接触并回传 Blender；按事件逐帧复核五问，保留用户接受范围及独立物理结论；请求增强时再执行第三步分层采样、缩幅重试与原生验证。"

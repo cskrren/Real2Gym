@@ -2,10 +2,10 @@
 name: real2sim-prompt
 description: Reconstruct scenes from real robot or human video in Blender; replay robot demonstrations or select target hardware and retarget human actions to it, execute and validate contacts in MuJoCo, export frame-matched comparisons, and augment accepted scenes with action adaptation and native validation.
 metadata:
-  version: "v5"
+  version: "v5.2"
 ---
 
-# Real2Sim Prompt v5
+# Real2Sim Prompt v5.2
 
 Real2Sim / Human2Robot 的基础重建分两步：**第一步，真实输入首帧 → 对齐的 Blender 静态场景；第二步，真实视频动作 → MuJoCo 实际物理执行 → 回传 Blender 多视角渲染。** 两步共用源索引、交互关键帧、坐标与参数来源记录。**第三步按需对已通过的场景做分层增强、动作适配与原生验证**；普通重建请求不自动扩展为增强批次。默认追求**可用的交互重建**；先让目标、相机方向、相对位置和操作过程可辨认，再按任务需要提高精度。用户认可的质量是当前项目的验收依据，不因仍有差异而无限返工。
 
@@ -148,6 +148,14 @@ robot/human 换硬件时，允许在原示范无法完成后调整路径、接�
 4. **支撑与交付**：桌面尺寸仅为合理承载按需调整，不独立随机化长宽/切角。桌面安装的机械臂随桌升降；地面安装的人形通常保持地面基准并重新检查可达性。Blender/MuJoCo 保留完整显示资产、纹理与一致变换，必要碰撞体另设。输出模型、参数差异、原生证据及所需对照；增强场景没有新配对 Real RGB，原视频只作任务参考。
 
 第三步采用本轮配置的候选数、缩幅预算和结束条件；不要将第一、二步的持续修正要求解释为无限缩幅、无限采样或保证每个增强都成功。具体范围、验收、资产核对和性能经验以该参考为准。
+
+## v5.1：指标、增强多样性与恢复
+
+物理验收、增强去重或恢复执行时，按需读[物理指标、多样性与依赖缓存](references/metrics-diversity-cache.md)。平移/角速度使用独立单位与阈值，检查持续稳定窗口；穿透按容差、接触语义及任务影响分类。N/M按实际最终参数和资产去重，统计集合多样性；均衡采样可选，不改变每候选1–3项和无类别覆盖配额。缓存以生产程序、几何/控制/显示/相机依赖及输出验证共同决定有效性，中断只补同版本缺失产物。规范不等于执行器已接入，实际实现状态必须如实报告。
+
+## v5.2：原生证据与增强验收工具
+
+交付原生执行或第三步增强时读[证据关联与专用验收](references/native-and-augmentation-gates.md)。任务范围及physics_required必须显式一致；需要物理的交付绑定当前模型/资产、控制、初态、运行配置、轨迹和任务判据。第三步独立校验父子真实参数差异、支撑/安装、显示碰撞审计和双端关键帧身份，不要求增强场景的新Real RGB。不扩展跨任务动作接口。验收器检查记录及内容关联，不能替代实际执行、场景指标计算或视觉审核；旧记录需真实来源迁移，不能自动补pass。
 
 ## 控制时间与tokens
 

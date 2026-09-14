@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Validate evidence coverage and stage boundaries, never generate visual judgments."""
 from pathlib import Path
+from evidence_checks import check_scope
 import argparse,hashlib,json,sys
 Q=('largest_difference','camera_alignment','relative_object_alignment','penetration_and_contact','reconstruction_fidelity')
 GOOD={'pass','pass_with_notes'};ALL=GOOD|{'observed','fail','review','not_evaluated'}
@@ -101,7 +102,8 @@ def check(path,stage):
   elif stage!='review' and i.get('blocking'):bad('open blocking issue '+str(i.get('id')))
  if x.get('iteration',0)>0:
   if not x.get('changed_parameters') or not x.get('addressed_issue_ids'):bad('correction missing changes/feedback link')
- if stage=='deliver' and x.get('physics_required') and x.get('physics',{}).get('status')!='pass':bad('native physics not passed')
+ try:check_scope(x,stage,root)
+ except (OSError,ValueError,TypeError,KeyError,AttributeError) as e:bad(str(e))
  return {'candidate_id':x.get('candidate_id'),'stage':stage,'pass':not errors,'required_frame_views':len(expected),'provided_frame_views':len(actual),'errors':errors}
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('record');p.add_argument('--stage',choices=['review','physics','deliver'],default='review');a=p.parse_args()
