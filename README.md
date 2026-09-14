@@ -23,30 +23,6 @@ Real2Gym uses **GPT6 Astra** to coordinate scene reconstruction, action adaptati
 | **2. Execute** | Recover or retarget motion, refine contacts and verify the complete task | MuJoCo model, native trajectory, **Real / Blender / MuJoCo RGB** comparisons |
 | **3. Augment** | Combine mechanical changes with appearance variations and test execution | Validated scene family with parameter changes and run evidence |
 
-## Hardware selection
-
-Choose the target robot for human-to-robot retargeting, or retain the source robot for same-hardware demonstrations.
-
-<table>
-<tr>
-<td align="center" width="33%"><img src="assets/hardware/fr3_hand.png" height="180" alt="Dual FR3 + Franka Hand"><br><b>Dual FR3 + Franka Hand</b></td>
-<td align="center" width="33%"><img src="assets/hardware/fr3_wuji.png" height="180" alt="Dual FR3 + Wuji Hand"><br><b>Dual FR3 + Wuji Hand</b></td>
-<td align="center" width="33%"><img src="assets/hardware/fr3_sharpa.png" height="180" alt="Dual FR3 + Sharpa Wave"><br><b>Dual FR3 + Sharpa Wave</b></td>
-</tr>
-<tr>
-<td align="center" width="33%"><img src="assets/hardware/aloha2.png" height="180" alt="ALOHA 2"><br><b>ALOHA 2</b></td>
-<td align="center" width="33%"><img src="assets/hardware/g1_dex3.png" height="180" alt="G1 + Dex3-1"><br><b>G1 + Dex3-1</b></td>
-<td align="center" width="33%"><img src="assets/hardware/h1_2.png" height="180" alt="H1-2 + stock five-finger hands"><br><b>H1-2 + stock five-finger hands</b></td>
-</tr>
-</table>
-
-- **Parallel grippers:** dual FR3 + Franka Hand or ALOHA 2.
-- **Dexterous hands:** dual FR3 + Wuji Hand or Sharpa Wave.
-- **Humanoids:** G1 + Dex3-1 or H1-2 + its stock five-finger hands.
-- **Custom hardware:** provide a complete URDF/MJCF and end-effector description.
-
-[Configuration details and end-effector options](skills/real2sim-prompt/references/target-robot-selection.md) · [Model preview sources](assets/hardware/README.md)
-
 ## Get started
 
 ```bash
@@ -74,6 +50,30 @@ and frame-matched Real / Blender / MuJoCo RGB comparisons.
 ```
 
 For step 3, start from an accepted scene and specify augmentation and retry budgets. [Robot, human and augmentation examples →](examples/README.md)
+
+## Hardware selection
+
+Choose the target robot for human-to-robot retargeting, or retain the source robot for same-hardware demonstrations.
+
+<table>
+<tr>
+<td align="center" width="33%"><img src="assets/hardware/fr3_hand.png" height="180" alt="Dual FR3 + Franka Hand"><br><b>Dual FR3 + Franka Hand</b></td>
+<td align="center" width="33%"><img src="assets/hardware/fr3_wuji.png" height="180" alt="Dual FR3 + Wuji Hand"><br><b>Dual FR3 + Wuji Hand</b></td>
+<td align="center" width="33%"><img src="assets/hardware/fr3_sharpa.png" height="180" alt="Dual FR3 + Sharpa Wave"><br><b>Dual FR3 + Sharpa Wave</b></td>
+</tr>
+<tr>
+<td align="center" width="33%"><img src="assets/hardware/aloha2.png" height="180" alt="ALOHA 2"><br><b>ALOHA 2</b></td>
+<td align="center" width="33%"><img src="assets/hardware/g1_dex3.png" height="180" alt="G1 + Dex3-1"><br><b>G1 + Dex3-1</b></td>
+<td align="center" width="33%"><img src="assets/hardware/h1_2.png" height="180" alt="H1-2 + stock five-finger hands"><br><b>H1-2 + stock five-finger hands</b></td>
+</tr>
+</table>
+
+- **Parallel grippers:** dual FR3 + Franka Hand or ALOHA 2.
+- **Dexterous hands:** dual FR3 + Wuji Hand or Sharpa Wave.
+- **Humanoids:** G1 + Dex3-1 or H1-2 + its stock five-finger hands.
+- **Custom hardware:** provide a complete URDF/MJCF and end-effector description.
+
+[Configuration details and end-effector options](skills/real2sim-prompt/references/target-robot-selection.md) · [Model preview sources](assets/hardware/README.md)
 
 ## Citation
 

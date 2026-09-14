@@ -21,6 +21,12 @@ Real2Gym 由 **GPT6 Astra** 协调 **Blender 场景重建、MuJoCo 动作执行�
 | **2. 执行** | 动作恢复／重定向、接触调整、完整物理回归 | MuJoCo 模型、原生轨迹、**Real / Blender / MuJoCo RGB** 对照 |
 | **3. 增强** | 组合机械变化与外观变化，逐项验证 | 带参数差异及运行证据的仿真场景集合 |
 
+## 快速使用
+
+克隆 [Real2Gym](https://github.com/cskrren/Real2Gym)，将完整 `skills/real2sim-prompt` 目录安装到 agent 技能目录。Codex 默认位置为 `~/.codex/skills/real2sim-prompt`，调用名称为 **`$real2sim-prompt`**。
+
+使用 Conda 创建 `real2gym` 环境（Python 3.11），命令见[英文快速开始](../README.md#get-started)。按[环境准备指南](guides/getting-started.md)配置 Blender、MuJoCo、几何模型和机器人资产，然后向 agent 提供视频路径、输入类型、目标硬件和输出目录。[示例请求](../examples/README.md)
+
 ## 硬件选择
 
 人手示范可选择目标机器人进行动作重定向；同硬件机器人示范沿用源机器人。
@@ -44,12 +50,6 @@ Real2Gym 由 **GPT6 Astra** 协调 **Blender 场景重建、MuJoCo 动作执行�
 - **自定义硬件**：提供完整 URDF/MJCF 与末端描述。
 
 [配置细节与末端选项](../skills/real2sim-prompt/references/target-robot-selection.md) · [模型图来源](../assets/hardware/README.md)
-
-## 快速使用
-
-克隆 [Real2Gym](https://github.com/cskrren/Real2Gym)，将完整 `skills/real2sim-prompt` 目录安装到 agent 技能目录。Codex 默认位置为 `~/.codex/skills/real2sim-prompt`，调用名称为 **`$real2sim-prompt`**。
-
-使用 Conda 创建 `real2gym` 环境（Python 3.11），命令见[英文快速开始](../README.md#get-started)。按[环境准备指南](guides/getting-started.md)配置 Blender、MuJoCo、几何模型和机器人资产，然后向 agent 提供视频路径、输入类型、目标硬件和输出目录。[示例请求](../examples/README.md)
 
 [引用方式](../README.md#citation)
 
