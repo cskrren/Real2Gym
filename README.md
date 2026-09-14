@@ -4,7 +4,7 @@
 
 ![Real2Gym overview: GPT6 Astra coordinates real-video reconstruction, robot simulation execution and scene augmentation](assets/real2gym-overview.png)
 
-*AI-generated conceptual overview: human or single-arm demonstrations, corresponding Blender and MuJoCo scenes, and background/table-height/microwave-position variants; not experimental screenshots. [Artwork provenance](assets/README.md).*
+*AI-generated conceptual overview: human or single-arm demonstrations, corresponding Blender and MuJoCo scenes, and MuJoCo background/table-height/microwave-position variants; not experimental screenshots. [Artwork provenance](assets/README.md).*
 
 **Reconstruct the scene. Reproduce the interaction. Build a family of validated simulations.**
 

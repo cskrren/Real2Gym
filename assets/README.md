@@ -8,7 +8,11 @@ Generated with the built-in image tool after user authorization. The tool does n
 - [Exact generation prompt](hero-generation-prompt.txt)
 - [Revision prompts: single-arm alignment and simplified simulation appearance](hero-revision-prompts.json)
 - [Earlier revision prompts: input branches, both simulators, table and target changes](hero-revision3-prompts.json)
-- [Latest revision: Blender realism and microwave doors](hero-revision4-prompt.txt)
+- [Earlier revision: Blender realism and microwave doors](hero-revision4-prompt.txt)
+- [Latest revision: MuJoCo appearance, independent pedestal and header cleanup](hero-revision5-prompt.txt)
+- User references: [MuJoCo style](hero-reference-mujoco.png) and [independent pedestal](hero-reference-pedestal.png)
 - [Generation and review record](hero-generation.json)
 
 This is conceptual AI-generated artwork, not a real input video, a simulator render or benchmark evidence. Depicted robots, tool marks and environments are illustrative; no endorsement is implied. The three illustration panels summarize the framework rather than replacing its detailed three-step workflow.
+
+The latest table-height illustration uses a ground-mounted independent robot pedestal, per the requested visual reference. This artwork choice does not change the skill rule that mounting relationships determine whether a robot follows table height.

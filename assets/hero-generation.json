@@ -3,15 +3,27 @@
   "mode": "built_in",
   "model": "not exposed by tool",
   "output": "real2gym-overview.png",
-  "sha256": "83a7fd68571cedb9d00eac16c18800d0b41a60f10e2c3be1195e272db2552815",
+  "sha256": "e1c109b53c5ee155e9b841654455521fe5f49edcdcaf2e0441369274bbd7c501",
   "prompt": "hero-generation-prompt.txt",
   "design_brief": "hero-prompt.txt",
-  "visual_review": "Inspected all seven microwave illustrations: visible separate open windowed door panels with handles and cavities. Blender panel now has richer wood, metal and ceramic shading. Human/robot inputs, separate Blender/MuJoCo panels and three augmentation labels retained. Illustrative geometry, not dimensionally verified physical assets or experimental evidence.",
+  "visual_review": "Inspected final image: upper orange curved arrow and its text removed; MuJoCo and all three augmentation panels use reduced-texture matte rendering; Blender retains richer materials. Table-height panel shows an independent floor-standing robot pedestal separate from tabletop. Visible open microwave doors and one arm per applicable panel retained. Conceptual artwork, not measured simulator evidence.",
   "dimensions": [
     1536,
     1024
   ],
   "revision_prompts": "hero-revision-prompts.json",
-  "revision": 4,
-  "latest_revision_prompts": "hero-revision4-prompt.txt"
+  "revision": 5,
+  "latest_revision_prompts": "hero-revision5-prompt.txt",
+  "latest_references": [
+    {
+      "file": "hero-reference-mujoco.png",
+      "sha256": "8adeefc53713442861142de94c96c37096d52326b26921369e9cb60f4e979fa7",
+      "source": "user-provided visual reference"
+    },
+    {
+      "file": "hero-reference-pedestal.png",
+      "sha256": "c4342da6529cf7bfb1df2c68daf55515fceb2a620149290f2c52ad28c80cc443",
+      "source": "user-provided visual reference"
+    }
+  ]
 }

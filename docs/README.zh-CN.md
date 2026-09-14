@@ -4,7 +4,7 @@
 
 ![Real2Gym 框架介绍](../assets/real2gym-overview.png)
 
-*AI 生成的概念介绍图：人手或单机械臂示范、对应的 Blender 与 MuJoCo 场景，以及背景替换、桌高和微波炉位置增强；不作为实验结果证据。*
+*AI 生成的概念介绍图：人手或单机械臂示范、对应的 Blender 与 MuJoCo 场景，以及 MuJoCo 中的背景替换、桌高和微波炉位置增强；不作为实验结果证据。*
 
 Real2Gym 将真实机器人或人手操作视频重建为 Blender 场景，在 MuJoCo 中恢复并验证交互动作，再生成有物理执行证据的增强环境。GPT6 Astra 负责观察、编写与修改场景/控制代码、调用工具、复核反馈；Blender 和 MuJoCo 分别提供视觉与原生物理证据。
 
