@@ -1,13 +1,23 @@
 # Real2Sim Skills
 
-Current release: **v4 — humanoid retargeting with source-action priority**.
+Current release: **v5 — factorized scene augmentation with native validation**.
 
-[Real2Sim Prompt v4](skills/real2sim-prompt/SKILL.md) 支持 robot real data 与 human real data，共用两步流程：
+[Real2Sim Prompt v5](skills/real2sim-prompt/SKILL.md) 支持 robot real data 与 human real data，共用两步重建，并按需执行第三步增强：
 
 1. **首帧 → Blender 静态场景**：单视角 MoGe-3 / 多视角 Pi3X；首帧 RGB 主导实例 mesh，仅首帧点云辅助深度/方向/尺度，最多10个后续稀疏 RGB 时间索引补全表面；URDF/XML 初始化机器人并投影复核。
 2. **真实动作 → 原生物理 → 三方对照**：真实事件发现、动作恢复/重定向、逐关键帧五问、MuJoCo 接触执行与完整回归、回传 Blender 并优化前后景外观。
 
-## v4：人形机器人的首选与替代分支
+3. **分层增强 → 动作适配 → 原生验证**：单项探测采样范围，随机选择1–3项机械修改，失败后保持组合缩幅重试；对通过场景加入前后景纹理、真实干扰物、完整背景与适度灯光，构成 `(1+N)×(1+M)` 候选。
+
+## v5：第三步分层增强
+
+N接受单项和多项修改，不强求类别覆盖。杯子和微波炉等任务对象/设施均可改变几何、位置、朝向；桌高另设，桌面尺寸仅按合理支撑派生调整。桌面安装机械臂随桌升降，地面安装人形通常保持地面基准。每个外观候选也原生复验，完整显示资产同步保留到 Blender/MuJoCo。
+
+单项边界不是连续可行性保证。缩幅围绕原值进行，保留失败记录；批量采样预算独立于前两步的修正闭环。增强场景无新配对 Real RGB。
+
+[第三步操作说明](skills/real2sim-prompt/references/augmentation.md) · [v5 经验与验证范围](docs/v5-lessons.md)
+
+## 保留 v4：人形机器人的首选与替代分支
 
 **首先尝试复现 real 视频中的 action，保持原轨迹、原接触点和原位置，确保在避免危险及高难动作、避免不稳定接触动作的前提下完成任务。如果无法执行，再保持原执行逻辑、尽量保持原位置，并继续避免危险及高难动作、避免不稳定接触动作。**
 
@@ -43,7 +53,7 @@ Current release: **v4 — humanoid retargeting with source-action priority**.
 | 7 | 最终模型与初态完整回归，任务/接触/几何/视觉分别验收 |
 | 8 | 同一原生轨迹回传 Blender，前后景材质/纹理/灯光优化，输出 Real / Blender / MuJoCo RGB |
 
-视频交付区分实际物理速度与事件对齐播放；完整解码并核对帧身份。修正不设固定次数上限；复用未失效缓存，短段诊断后再完整回归、最终渲染。停止条件及接受范围以 skill 为准。
+视频交付区分实际物理速度与事件对齐播放；完整解码并核对帧身份。第一、二步修正不设固定次数上限；第三步采样与缩幅按本轮预算执行。复用未失效缓存，短段诊断后再完整回归、最终渲染。停止条件及接受范围以 skill 为准。
 
 ## 安装与范围
 
@@ -51,4 +61,4 @@ Current release: **v4 — humanoid retargeting with source-action priority**.
 
 本仓库发布流程与检查工具，不包含视频数据、模型权重、Blender/MuJoCo 资产或通用求解器。官方兼容快照需在实际执行时按版本复核；流程支持不等于所有硬件或场景成功。
 
-历史版本标签保持不变：[v3.3 经验](docs/v3.3-lessons.md) · [v1 历史示意](docs/pipeline-v1.md)。当前规则以 v4 为准。
+历史版本标签保持不变：[v3.3 经验](docs/v3.3-lessons.md) · [v1 历史示意](docs/pipeline-v1.md)。当前规则以 v5 为准。
