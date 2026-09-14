@@ -3,14 +3,15 @@
   "mode": "built_in",
   "model": "not exposed by tool",
   "output": "real2gym-overview.png",
-  "sha256": "fc063a0a908a90a77e388b2b130bc21656b25127e05fa36a9ca54b6060699e4e",
+  "sha256": "23b998cafc192081c18e840f90857833817495819cf12d3359e81f6ced8abf08",
   "prompt": "hero-generation-prompt.txt",
   "design_brief": "hero-prompt.txt",
-  "visual_review": "Inspected final image: exactly one arm in each panel; left and center share a corresponding primary camera/robot/object composition. Center and augmentation panels use visibly simplified matte CG materials. Augmentation illustrates background replacement and object translation. Conceptual correspondence, not measured pixel-perfect alignment or actual experiment evidence.",
+  "visual_review": "Inspected human and single-arm inputs, separate labelled Blender and MuJoCo panels, background change, table-height change with robot visibly mounted on tabletop, and microwave-position change. Simplified simulation appearance. Conceptual scene correspondence only, not measured pixel alignment or real experiment evidence.",
   "dimensions": [
-    1672,
-    941
+    1536,
+    1024
   ],
   "revision_prompts": "hero-revision-prompts.json",
-  "revision": 2
+  "revision": 3,
+  "latest_revision_prompts": "hero-revision3-prompts.json"
 }
