@@ -3,15 +3,15 @@
   "mode": "built_in",
   "model": "not exposed by tool",
   "output": "real2gym-overview.png",
-  "sha256": "23b998cafc192081c18e840f90857833817495819cf12d3359e81f6ced8abf08",
+  "sha256": "83a7fd68571cedb9d00eac16c18800d0b41a60f10e2c3be1195e272db2552815",
   "prompt": "hero-generation-prompt.txt",
   "design_brief": "hero-prompt.txt",
-  "visual_review": "Inspected human and single-arm inputs, separate labelled Blender and MuJoCo panels, background change, table-height change with robot visibly mounted on tabletop, and microwave-position change. Simplified simulation appearance. Conceptual scene correspondence only, not measured pixel alignment or real experiment evidence.",
+  "visual_review": "Inspected all seven microwave illustrations: visible separate open windowed door panels with handles and cavities. Blender panel now has richer wood, metal and ceramic shading. Human/robot inputs, separate Blender/MuJoCo panels and three augmentation labels retained. Illustrative geometry, not dimensionally verified physical assets or experimental evidence.",
   "dimensions": [
     1536,
     1024
   ],
   "revision_prompts": "hero-revision-prompts.json",
-  "revision": 3,
-  "latest_revision_prompts": "hero-revision3-prompts.json"
+  "revision": 4,
+  "latest_revision_prompts": "hero-revision4-prompt.txt"
 }
