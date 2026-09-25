@@ -2,10 +2,10 @@
 name: real2sim-prompt
 description: Reconstruct scenes from real robot or human video in Blender; replay robot demonstrations or select target hardware and retarget human actions to it, execute and validate contacts in MuJoCo, export frame-matched comparisons, and augment accepted scenes with action adaptation and native validation.
 metadata:
-  version: "v5.2"
+  version: "v5.3"
 ---
 
-# Real2Sim Prompt v5.2
+# Real2Sim Prompt v5.3
 
 Real2Sim / Human2Robot 的基础重建分两步：**第一步，真实输入首帧 → 对齐的 Blender 静态场景；第二步，真实视频动作 → MuJoCo 实际物理执行 → 回传 Blender 多视角渲染。** 两步共用源索引、交互关键帧、坐标与参数来源记录。**第三步按需对已通过的场景做分层增强、动作适配与原生验证**；普通重建请求不自动扩展为增强批次。默认追求**可用的交互重建**；先让目标、相机方向、相对位置和操作过程可辨认，再按任务需要提高精度。用户认可的质量是当前项目的验收依据，不因仍有差异而无限返工。
 
@@ -157,8 +157,10 @@ robot/human 换硬件时，允许在原示范无法完成后调整路径、接�
 
 交付原生执行或第三步增强时读[证据关联与专用验收](skills/real2sim-prompt/references/native-and-augmentation-gates.md)。任务范围及physics_required必须显式一致；需要物理的交付绑定当前模型/资产、控制、初态、运行配置、轨迹和任务判据。第三步独立校验父子真实参数差异、支撑/安装、显示碰撞审计和双端关键帧身份，不要求增强场景的新Real RGB。不扩展跨任务动作接口。验收器检查记录及内容关联，不能替代实际执行、场景指标计算或视觉审核；旧记录需真实来源迁移，不能自动补pass。
 
-## 控制时间与tokens
+## v5.3：控制上下文、工具往返与默认子任务协作
 
-主入口只读一次；按需加载参考，优先读取摘要、问题区间和配置差异。数值扫描、候选搜索、统计、拼图、表格与视频核验交给可复用脚本；工具只返回计数、极值、失败区间和少量证据。模型集中处理新图像的空间歧义与方案选择。先看多视角总览，问题区域再放大；不要为每次微调重新加载全片图像和大段日志。
+开始执行时读一次[精简状态、批处理与子任务协作](skills/real2sim-prompt/references/efficient-execution.md)，以后只读当前阶段所需条目。默认维护精简状态文件，把确定性的标定、扫描和统计交给脚本批处理；工具只返回决策需要的摘要。主入口与未变化的参考不重复整篇加载；续做优先读取当前状态、未关闭问题和配置差异。
+
+**子任务协作是默认执行选项**：存在有用且相互独立的工作时主动委派，主任务同时推进其他工作；串行依赖或协调成本更高时直接完成并简述原因。默认不继承完整对话，只给目标、必要约束、允许读取的输入、独占输出路径与验收标准；具备 `fork_turns` 参数时使用 `"none"`。子任务完成即结束其活动轮次，交付摘要和证据路径；不为重复汇报反复唤醒，不用另建用户任务代替内部子任务。主任务仍负责证据合并与最终验收。
 
 事件覆盖、五问证据和物理结果分别计数；未做的检查不能由参考图或退出码补成通过。第二步先做无渲染的数值诊断和少量分阶段候选，再渲染合格模型；只保存关键帧和异常窗口的详细接触量，全程扫描返回极值、区间和实际分母。参考脚本先检查适用性；不把场景专用导出器包装成未经验证的通用转换器。输出配置变化后更新相应哈希与依赖，保留失败基线供对照。
